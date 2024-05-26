@@ -10,6 +10,8 @@ import type { CategoryList } from "@/api/category/types/category"
 import { Plus } from "@element-plus/icons-vue"
 import { ElUpload } from "element-plus"
 import { ElMessage } from "element-plus"
+import { AddCollectionRequestsData } from "@/api/collection/types/collection"
+import { AddCollectionAPI } from "@/api/collection"
 // 图片上传
 const beforeUpload = async (file: File) => {
   if (file.type !== "image/jpeg" && file.type !== "image/jpg" && file.type !== "image/png") {
@@ -28,24 +30,35 @@ const beforeUpload = async (file: File) => {
 }
 
 const imageURL = ref("")
-const input = ref({
+const input = ref<AddCollectionRequestsData>({
   title: "",
   subtitle: "",
   description: "",
   text: "",
   main_image: "",
-  category: ""
-})
-const category_id = computed(() => {
-  const category = options.value.find((item) => item.name === input.value.category)
-  return category ? category.id : 0
+  category_id: undefined
 })
 const options = ref<CategoryList[]>([{ id: 0, name: "未分类" }])
 
-const submit = () => {
-  console.log(input.value, category_id.value)
-}
+const isAllNotEmpty = computed(() => {
+  return Object.values(input.value).every((field) => field !== "")
+})
 
+const submit = () => {
+  console.log(isAllNotEmpty.value)
+  console.log(input.value)
+  if (isAllNotEmpty.value) {
+    AddCollectionAPI(input.value).then((res) => {
+      if (res.code === 20000) {
+        ElMessage.success("添加成功")
+      } else {
+        ElMessage.error("添加失败")
+      }
+    })
+  } else {
+    ElMessage.error("请填写完整信息")
+  }
+}
 onMounted(async () => {
   const res = await GetCategoryList()
   if (res.code === 20000) {
@@ -76,7 +89,7 @@ onMounted(async () => {
             <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
           </el-upload>
           <div class="desc"><span>*</span>分类</div>
-          <el-select class="el-select" v-model="input.category" placeholder="请选择分类">
+          <el-select class="el-select" v-model="input.category_id" placeholder="请选择分类">
             <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id" />
           </el-select>
         </div>
