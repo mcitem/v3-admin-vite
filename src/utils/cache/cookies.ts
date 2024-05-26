@@ -1,14 +1,15 @@
-/** 统一处理 Cookie */
+/** 统一处理 Token */
 
-import CacheKey from "@/constants/cache-key"
-import Cookies from "js-cookie"
+const TOKEN_KEY = "X-Token"
 
 export const getToken = () => {
-  return Cookies.get(CacheKey.TOKEN)
+  return localStorage.getItem(TOKEN_KEY)
 }
+
 export const setToken = (token: string) => {
-  Cookies.set(CacheKey.TOKEN, token)
+  localStorage.setItem(TOKEN_KEY, token)
 }
+
 export const removeToken = () => {
-  Cookies.remove(CacheKey.TOKEN)
+  localStorage.removeItem(TOKEN_KEY)
 }
