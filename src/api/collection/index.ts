@@ -22,3 +22,12 @@ export async function UploadCollectionImageAPI(file: File) {
     }
   })
 }
+
+export async function GetCollectionListAPI(output_type: string = "less") {
+  const params = new URLSearchParams()
+  if (output_type) params.append("output_type", output_type)
+  return await request<Collection.GetCollectioListResponseData>({
+    url: `collection/list?${params.toString()}`,
+    method: "get"
+  })
+}

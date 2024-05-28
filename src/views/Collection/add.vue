@@ -30,15 +30,16 @@ const beforeUpload = async (file: File) => {
 }
 
 const imageURL = ref("")
-const input = ref<AddCollectionRequestsData>({
+const initINPUT: AddCollectionRequestsData = {
   title: "",
   subtitle: "",
   description: "",
   text: "",
   main_image: "",
-  category_id: undefined
-})
-const options = ref<CategoryList[]>([{ id: 0, name: "未分类" }])
+  category_id: 0
+}
+const input = ref<AddCollectionRequestsData>({ ...initINPUT })
+const options = ref<CategoryList[]>([{ id: 0, name: "不分类" }])
 
 const isAllNotEmpty = computed(() => {
   return Object.values(input.value).every((field) => field !== "")
@@ -51,6 +52,8 @@ const submit = () => {
     AddCollectionAPI(input.value).then((res) => {
       if (res.code === 20000) {
         ElMessage.success("添加成功")
+        input.value = { ...initINPUT }
+        imageURL.value = ""
       } else {
         ElMessage.error("添加失败")
       }

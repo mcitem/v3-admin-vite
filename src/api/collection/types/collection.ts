@@ -17,3 +17,16 @@ export interface UploadImageResponseData {
   msg: string
   picURL: string
 }
+
+export interface CollectionListData {
+  id: number
+  title: string
+  subtitle: string
+  description: string
+  main_image: string
+}
+export interface GetCollectioListResponseData {
+  code: number
+  msg: string
+  data: CollectionListData[]
+}
