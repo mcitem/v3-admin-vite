@@ -39,7 +39,7 @@ const initINPUT: AddCollectionRequestsData = {
   category_id: 0
 }
 const input = ref<AddCollectionRequestsData>({ ...initINPUT })
-const options = ref<CategoryList[]>([{ id: 0, name: "不分类" }])
+const options = ref<CategoryList[]>([])
 
 const isAllNotEmpty = computed(() => {
   return Object.values(input.value).every((field) => field !== "")
