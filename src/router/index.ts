@@ -261,7 +261,7 @@ export const constantRoutes: RouteRecordRaw[] = [
       {
         path: "list",
         component: () => import("@/views/Collection/list.vue"),
-        name: "List",
+        name: "CollectionList",
         meta: {
           title: "列表",
           elIcon: "List"
@@ -270,10 +270,27 @@ export const constantRoutes: RouteRecordRaw[] = [
       {
         path: "add",
         component: () => import("@/views/Collection/add.vue"),
-        name: "Add",
+        name: "CollectionAdd",
         meta: {
           title: "添加",
           elIcon: "DocumentAdd"
+        }
+      }
+    ]
+  },
+  {
+    path: "/Category",
+    component: Layouts,
+    redirect: "/Category/list",
+    name: "Category",
+    children: [
+      {
+        path: "list",
+        component: () => import("@/views/Category/list.vue"),
+        name: "CategoryList",
+        meta: {
+          title: "分类管理",
+          elIcon: "List"
         }
       }
     ]
